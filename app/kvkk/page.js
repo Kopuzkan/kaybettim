@@ -1,6 +1,3 @@
-`app/kvkk/page.js` → kalem ikonu → tamamen sil, şunu yapıştır:
-
-```jsx
 export default function KVKK() {
   return (
     <main style={{ background: '#0a0a0a', color: '#fff', fontFamily: 'system-ui, sans-serif', minHeight: '100vh', padding: '5rem 2rem', maxWidth: '800px', margin: '0 auto' }}>
@@ -105,6 +102,3 @@ export default function KVKK() {
     </main>
   )
 }
-```
-
-→ "Commit changes" tıkla! kaybettim.org/kvkk adresinde görünecek. 🚀
