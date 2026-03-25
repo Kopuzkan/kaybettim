@@ -249,7 +249,7 @@ export default function Home() {
         <footer style={{ borderTop: '1px solid #111', padding: '2.5rem 2rem', textAlign: 'center' }}>
           <p style={{ color: '#D85A30', fontFamily: "'Instrument Serif', serif", fontSize: '1.5rem', marginBottom: '0.5rem' }}>KAYBETTİM</p>
           <p style={{ color: '#2a2a2a', fontSize: '12px' }}>
-            © 2026 KAYBETTİM · Tüm hakları saklıdır ·{' '}
+            © 2026 KAYBETTİM · Tüm hakları ANAKRON DİGİTAL adına saklıdır ·{' '}
             <a href="/kvkk" style={{ color: '#333', textDecoration: 'underline' }}>Gizlilik Politikası</a>{' '}·{' '}
             <a href="/kvkk" style={{ color: '#333', textDecoration: 'underline' }}>KVKK Aydınlatma Metni</a>
           </p>
