@@ -1,6 +1,16 @@
 "use client";
+import { useState } from "react";
 
 export default function Home() {
+  const [showModal, setShowModal] = useState(false);
+  const [activeStep, setActiveStep] = useState(0);
+
+  const steps = [
+    { n: '01', icon: '🛡️', title: 'Kimliğinizi Doğrulayın', desc: 'T.C. kimlik numaranız ile güvenli hesap oluşturun. İşlem yalnızca birkaç saniye sürer. Verileriniz şifreli olarak saklanır.' },
+    { n: '02', icon: '📸', title: 'İlanınızı Oluşturun', desc: 'Fotoğraf ekleyin, konumu belirtin ve kategori seçin. Detaylı bir ilan, bulunma ihtimalini önemli ölçüde artırır.' },
+    { n: '03', icon: '📍', title: 'Topluluk Ağına Ulaşın', desc: 'İlanınız, çevrenizde kayıtlı doğrulanmış kullanıcılara anında iletilir ve canlı haritada yayınlanır.' },
+  ];
+
   return (
     <>
       <style>{`
@@ -23,6 +33,14 @@ export default function Home() {
           0%, 100% { box-shadow: 0 0 20px #D85A3040; }
           50% { box-shadow: 0 0 60px #D85A3080; }
         }
+        @keyframes modalIn {
+          from { opacity: 0; transform: scale(0.92) translateY(20px); }
+          to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        @keyframes overlayIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
         .fade1 { animation: fadeUp 0.8s ease forwards; opacity: 0; }
         .fade2 { animation: fadeUp 0.8s ease 0.2s forwards; opacity: 0; }
         .fade3 { animation: fadeUp 0.8s ease 0.4s forwards; opacity: 0; }
@@ -32,9 +50,81 @@ export default function Home() {
         .glow-btn { animation: glow 2s ease-in-out infinite; }
         .feature-card { background: #111; border: 1px solid #1a1a1a; border-radius: 16px; padding: 2rem; transition: border-color 0.3s; }
         .feature-card:hover { border-color: rgba(216,90,48,0.4); }
+        .modal-overlay { animation: overlayIn 0.3s ease forwards; }
+        .modal-box { animation: modalIn 0.4s cubic-bezier(0.34,1.56,0.64,1) forwards; }
+        .step-btn { background: transparent; border: 1px solid #222; color: #555; padding: 10px 20px; border-radius: 100px; font-size: 13px; cursor: pointer; font-family: inherit; transition: all 0.2s; }
+        .step-btn.active { background: #D85A30; border-color: #D85A30; color: #fff; }
+        .step-btn:hover { border-color: #D85A30; color: #D85A30; }
         input::placeholder { color: #444; }
-        input:focus { border-color: #D85A30 !important; }
       `}</style>
+
+      {/* MODAL */}
+      {showModal && (
+        <div
+          className="modal-overlay"
+          onClick={() => setShowModal(false)}
+          style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.85)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem', backdropFilter: 'blur(8px)' }}
+        >
+          <div
+            className="modal-box"
+            onClick={e => e.stopPropagation()}
+            style={{ background: '#0f0f0f', border: '1px solid #222', borderRadius: '24px', padding: '3rem', maxWidth: '560px', width: '100%', position: 'relative' }}
+          >
+            <button
+              onClick={() => setShowModal(false)}
+              style={{ position: 'absolute', top: '1.5rem', right: '1.5rem', background: '#1a1a1a', border: 'none', color: '#555', width: '32px', height: '32px', borderRadius: '50%', cursor: 'pointer', fontSize: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+            >✕</button>
+
+            <p style={{ color: '#D85A30', fontSize: '11px', fontWeight: '700', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: '0.75rem' }}>Kullanım Süreci</p>
+            <h2 style={{ fontFamily: "'Instrument Serif', serif", fontSize: '2rem', color: '#fff', marginBottom: '2rem' }}>3 adımda sonuca ulaşın</h2>
+
+            {/* STEP BUTONLARI */}
+            <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '2rem', flexWrap: 'wrap' }}>
+              {steps.map((s, i) => (
+                <button key={i} className={`step-btn ${activeStep === i ? 'active' : ''}`} onClick={() => setActiveStep(i)}>
+                  {s.n} {s.title.split(' ')[0]}
+                </button>
+              ))}
+            </div>
+
+            {/* AKTİF ADIM */}
+            <div style={{ background: '#151515', border: '1px solid #1a1a1a', borderRadius: '16px', padding: '2rem', minHeight: '160px' }}>
+              <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>{steps[activeStep].icon}</div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.75rem' }}>
+                <span style={{ fontSize: '11px', fontWeight: '700', color: '#D85A3080', letterSpacing: '0.1em' }}>{steps[activeStep].n}</span>
+                <h3 style={{ fontSize: '16px', fontWeight: '700', color: '#fff' }}>{steps[activeStep].title}</h3>
+              </div>
+              <p style={{ fontSize: '14px', color: '#666', lineHeight: '1.8' }}>{steps[activeStep].desc}</p>
+            </div>
+
+            {/* İLERİ / GERİ */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '1.5rem' }}>
+              <button
+                onClick={() => setActiveStep(Math.max(0, activeStep - 1))}
+                style={{ background: 'transparent', border: '1px solid #222', color: activeStep === 0 ? '#333' : '#888', padding: '10px 20px', borderRadius: '10px', cursor: activeStep === 0 ? 'default' : 'pointer', fontFamily: 'inherit', fontSize: '13px' }}
+              >← Önceki</button>
+
+              <div style={{ display: 'flex', gap: '6px' }}>
+                {steps.map((_, i) => (
+                  <div key={i} onClick={() => setActiveStep(i)} style={{ width: activeStep === i ? '20px' : '6px', height: '6px', borderRadius: '100px', background: activeStep === i ? '#D85A30' : '#2a2a2a', cursor: 'pointer', transition: 'all 0.3s' }} />
+                ))}
+              </div>
+
+              {activeStep < steps.length - 1 ? (
+                <button
+                  onClick={() => setActiveStep(Math.min(steps.length - 1, activeStep + 1))}
+                  style={{ background: '#D85A30', border: 'none', color: '#fff', padding: '10px 20px', borderRadius: '10px', cursor: 'pointer', fontFamily: 'inherit', fontSize: '13px', fontWeight: '600' }}
+                >Sonraki →</button>
+              ) : (
+                <button
+                  onClick={() => setShowModal(false)}
+                  style={{ background: '#1D9E75', border: 'none', color: '#fff', padding: '10px 20px', borderRadius: '10px', cursor: 'pointer', fontFamily: 'inherit', fontSize: '13px', fontWeight: '600' }}
+                >Harika! ✓</button>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
 
       <main style={{ background: '#0a0a0a', color: '#fff', fontFamily: "'Space Grotesk', sans-serif", overflowX: 'hidden' }}>
 
@@ -60,7 +150,10 @@ export default function Home() {
             <button className="glow-btn" style={{ background: '#D85A30', color: '#fff', border: 'none', padding: '14px 32px', borderRadius: '12px', fontSize: '15px', fontWeight: '700', cursor: 'pointer', fontFamily: 'inherit' }}>
               Beni Haberdar Et
             </button>
-            <button style={{ background: 'transparent', color: '#888', border: '1px solid #2a2a2a', padding: '14px 32px', borderRadius: '12px', fontSize: '15px', cursor: 'pointer', fontFamily: 'inherit' }}>
+            <button
+              onClick={() => { setShowModal(true); setActiveStep(0); }}
+              style={{ background: 'transparent', color: '#888', border: '1px solid #2a2a2a', padding: '14px 32px', borderRadius: '12px', fontSize: '15px', cursor: 'pointer', fontFamily: 'inherit', transition: 'all 0.2s' }}
+            >
               Nasıl Çalışır?
             </button>
           </div>
@@ -86,7 +179,6 @@ export default function Home() {
               Geleneksel yöntemlerin aksine KAYBETTİM, doğrulama tabanlı altyapısıyla güvenliği ön planda tutar.
             </p>
           </div>
-
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.5rem' }}>
             {[
               { icon: '🛡️', title: 'Kimlik Doğrulama', desc: 'Yalnızca kimliği doğrulanmış kullanıcılar ilan oluşturabilir. Sahte ilan ve dolandırıcılık riski sıfıra indirilir.' },
@@ -105,29 +197,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* NASIL ÇALIŞIR */}
-        <section style={{ padding: '7rem 2rem', background: '#0d0d0d' }}>
-          <div style={{ maxWidth: '780px', margin: '0 auto', textAlign: 'center' }}>
-            <p style={{ color: '#1D9E75', fontSize: '11px', fontWeight: '700', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: '1rem' }}>Kullanım Süreci</p>
-            <h2 style={{ fontFamily: "'Instrument Serif', serif", fontSize: 'clamp(2rem, 5vw, 3rem)', color: '#fff', marginBottom: '4rem' }}>3 adımda sonuca ulaşın</h2>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-              {[
-                { n: '01', title: 'Kimliğinizi Doğrulayın', desc: 'T.C. kimlik numaranız ile güvenli hesap oluşturun. İşlem yalnızca birkaç saniye sürer.' },
-                { n: '02', title: 'İlanınızı Oluşturun', desc: 'Fotoğraf ekleyin, konumu belirtin ve kategori seçin. Detaylı bir ilan, bulunma ihtimalini artırır.' },
-                { n: '03', title: 'Topluluk Ağına Ulaşın', desc: 'İlanınız, çevrenizde kayıtlı doğrulanmış kullanıcılara anında iletilir ve haritada yayınlanır.' },
-              ].map(({ n, title, desc }) => (
-                <div key={n} style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', background: '#111', border: '1px solid #1a1a1a', borderRadius: '16px', padding: '1.75rem 2rem', textAlign: 'left' }}>
-                  <div style={{ fontSize: '2rem', fontWeight: '800', color: '#D85A3030', minWidth: '60px', fontFamily: "'Instrument Serif', serif" }}>{n}</div>
-                  <div>
-                    <h3 style={{ fontSize: '15px', fontWeight: '700', color: '#fff', marginBottom: '5px' }}>{title}</h3>
-                    <p style={{ fontSize: '13px', color: '#555', lineHeight: '1.6' }}>{desc}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
         {/* CTA */}
         <section style={{ padding: '7rem 2rem', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
           <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: '600px', height: '600px', background: '#D85A3012', borderRadius: '50%', filter: 'blur(100px)' }} />
@@ -140,11 +209,7 @@ export default function Home() {
               Lansman bildirimi almak için e-posta adresinizi bırakın. Spam göndermiyoruz; yalnızca açılış duyurusunu iletiyoruz.
             </p>
             <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '1.5rem' }}>
-              <input
-                type="email"
-                placeholder="ornek@eposta.com"
-                style={{ padding: '14px 20px', borderRadius: '12px', border: '1px solid #2a2a2a', background: '#111', color: '#fff', fontSize: '14px', width: '280px', fontFamily: 'inherit', outline: 'none' }}
-              />
+              <input type="email" placeholder="ornek@eposta.com" style={{ padding: '14px 20px', borderRadius: '12px', border: '1px solid #2a2a2a', background: '#111', color: '#fff', fontSize: '14px', width: '280px', fontFamily: 'inherit', outline: 'none' }} />
               <button className="glow-btn" style={{ background: '#D85A30', color: '#fff', border: 'none', padding: '14px 28px', borderRadius: '12px', fontSize: '14px', fontWeight: '700', cursor: 'pointer', fontFamily: 'inherit' }}>
                 Beni Haberdar Et
               </button>
