@@ -1,5 +1,5 @@
 export const metadata = {
-  title: 'KAYBETTİM',
+  title: 'Kaybettim',
   description: 'Kayıp eşya ve evcil hayvan platformu',
 }
 
