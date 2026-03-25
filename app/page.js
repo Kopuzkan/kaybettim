@@ -54,7 +54,8 @@ export default function Home() {
           </h1>
 
           <p className="fade3" style={{ fontSize: 'clamp(1rem, 2.5vw, 1.25rem)', color: '#777', maxWidth: '580px', lineHeight: '1.8', marginBottom: '2.5rem' }}>
-            Türkiye'nin ilk <span style={{ color: '#F0997B', fontWeight: '600' }}>kimlik doğrulamalı</span> kayıp eşya ve evcil hayvan platformu. Güvenli ilanlar, mahalle bazlı anlık bildirimler ve şeffaf ödül sistemi ile kayıplarınızı bir adım öteye taşıyoruz.
+            Senin için kıymetli bir şey mi kayboldu? Dert etme!{' '}
+            <span style={{ color: '#F0997B', fontWeight: '600' }}>Biz buradayız!</span>
           </p>
 
           <div className="fade4" style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', justifyContent: 'center', marginBottom: '3rem' }}>
@@ -99,12 +100,12 @@ export default function Home() {
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.5rem' }}>
             {[
-              { icon: '🛡️', title: 'Kimlik Doğrulama', desc: 'Yalnızca kimliği doğrulanmış kullanıcılar ilan oluşturabilir. Sahte ilan ve dolandırıcılık riski sıfıra indirilir.', color: '#D85A30' },
-              { icon: '📍', title: 'Mahalle Bazlı Bildirim', desc: '500 m ile 2 km arasındaki doğrulanmış kullanıcılara anlık push bildirimi iletilir.', color: '#1D9E75' },
-              { icon: '🗺️', title: 'Canlı İlan Haritası', desc: 'Tüm ilanlar gerçek zamanlı olarak harita üzerinde görüntülenir; konum bazlı filtreleme yapılabilir.', color: '#378ADD' },
-              { icon: '🏆', title: 'Güvenli Ödül Sistemi', desc: 'Ödül tutarı platform altyapısında emanete alınır; eşleşme onaylanmadan ödeme gerçekleşmez.', color: '#BA7517' },
-              { icon: '🤝', title: 'Çift Taraflı Onay', desc: 'İlan yalnızca her iki tarafın onayı alındıktan sonra kapatılır. Şeffaf ve izlenebilir bir süreç.', color: '#D4537E' },
-              { icon: '⚡', title: 'Akıllı Eşleşme', desc: 'Yapay zeka destekli algoritmamız, kayıp ilanınızı anlık olarak benzer bulgularla eşleştirir.', color: '#7F77DD' },
+              { icon: '🛡️', title: 'Kimlik Doğrulama', desc: 'Yalnızca kimliği doğrulanmış kullanıcılar ilan oluşturabilir. Sahte ilan ve dolandırıcılık riski sıfıra indirilir.' },
+              { icon: '📍', title: 'Mahalle Bazlı Bildirim', desc: '500 m ile 2 km arasındaki doğrulanmış kullanıcılara anlık push bildirimi iletilir.' },
+              { icon: '🗺️', title: 'Canlı İlan Haritası', desc: 'Tüm ilanlar gerçek zamanlı olarak harita üzerinde görüntülenir; konum bazlı filtreleme yapılabilir.' },
+              { icon: '🏆', title: 'Güvenli Ödül Sistemi', desc: 'Ödül tutarı platform altyapısında emanete alınır; eşleşme onaylanmadan ödeme gerçekleşmez.' },
+              { icon: '🤝', title: 'Çift Taraflı Onay', desc: 'İlan yalnızca her iki tarafın onayı alındıktan sonra kapatılır. Şeffaf ve izlenebilir bir süreç.' },
+              { icon: '⚡', title: 'Akıllı Eşleşme', desc: 'Yapay zeka destekli algoritmamız, kayıp ilanınızı anlık olarak benzer bulgularla eşleştirir.' },
             ].map(({ icon, title, desc }) => (
               <div key={title} className="feature-card float">
                 <div style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>{icon}</div>
@@ -138,13 +139,13 @@ export default function Home() {
           </div>
         </section>
 
-        {/* CTA & E-POSTA */}
+        {/* CTA */}
         <section style={{ padding: '7rem 2rem', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
           <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: '600px', height: '600px', background: '#D85A3012', borderRadius: '50%', filter: 'blur(100px)' }} />
           <div style={{ position: 'relative', zIndex: 1, maxWidth: '560px', margin: '0 auto' }}>
             <h2 style={{ fontFamily: "'Instrument Serif', serif", fontSize: 'clamp(2.5rem, 6vw, 4rem)', color: '#fff', marginBottom: '1rem', lineHeight: '1.15' }}>
-              Kaybetmek istemiyorsunuz.<br />
-              <span style={{ color: '#D85A30', fontStyle: 'italic' }}>Biz buldurmak için buradayız.</span>
+              Siz kaybedin,<br />
+              <span style={{ color: '#D85A30', fontStyle: 'italic' }}>biz buluruz!</span>
             </h2>
             <p style={{ color: '#555', fontSize: '14px', marginBottom: '2rem', lineHeight: '1.7' }}>
               Lansman bildirimi almak için e-posta adresinizi bırakın. Spam göndermiyoruz; yalnızca açılış duyurusunu iletiyoruz.
@@ -153,17 +154,16 @@ export default function Home() {
               <input
                 type="email"
                 placeholder="ornek@eposta.com"
-                style={{ padding: '14px 20px', borderRadius: '12px', border: '1px solid #2a2a2a', background: '#111', color: '#fff', fontSize: '14px', width: '280px', fontFamily: 'inherit', outline: 'none', transition: 'border-color 0.2s' }}
+                style={{ padding: '14px 20px', borderRadius: '12px', border: '1px solid #2a2a2a', background: '#111', color: '#fff', fontSize: '14px', width: '280px', fontFamily: 'inherit', outline: 'none' }}
               />
               <button className="glow-btn" style={{ background: '#D85A30', color: '#fff', border: 'none', padding: '14px 28px', borderRadius: '12px', fontSize: '14px', fontWeight: '700', cursor: 'pointer', fontFamily: 'inherit' }}>
                 Beni Haberdar Et
               </button>
             </div>
-            {/* KVKK */}
             <p style={{ fontSize: '11px', color: '#333', lineHeight: '1.7', maxWidth: '460px', margin: '0 auto' }}>
-              Bu formu doldurarak, e-posta adresinizin yalnızca lansman bildirimi amacıyla işleneceğini kabul etmiş olursunuz.
+              Bu formu doldurarak e-posta adresinizin yalnızca lansman bildirimi amacıyla işleneceğini kabul etmiş olursunuz.
               Kişisel verileriniz üçüncü taraflarla paylaşılmaz ve 6698 sayılı{' '}
-              <a href="/kvkk" style={{ color: '#555' }}>KVKK kapsamında</a> korunmaktadır.
+              <a href="/kvkk" style={{ color: '#444' }}>KVKK kapsamında</a> korunmaktadır.
               İstediğiniz zaman aboneliğinizi iptal edebilirsiniz.
             </p>
           </div>
@@ -172,7 +172,11 @@ export default function Home() {
         {/* FOOTER */}
         <footer style={{ borderTop: '1px solid #111', padding: '2.5rem 2rem', textAlign: 'center' }}>
           <p style={{ color: '#D85A30', fontFamily: "'Instrument Serif', serif", fontSize: '1.5rem', marginBottom: '0.5rem' }}>KAYBETTİM</p>
-          <p style={{ color: '#2a2a2a', fontSize: '12px' }}>© 2026 KAYBETTİM · Tüm hakları saklıdır · <a href="/kvkk" style={{ color: '#333' }}>Gizlilik Politikası</a> · <a href="/kvkk" style={{ color: '#333' }}>KVKK Aydınlatma Metni</a></p>
+          <p style={{ color: '#2a2a2a', fontSize: '12px' }}>
+            © 2026 KAYBETTİM · Tüm hakları saklıdır ·{' '}
+            <a href="/kvkk" style={{ color: '#333' }}>Gizlilik Politikası</a> ·{' '}
+            <a href="/kvkk" style={{ color: '#333' }}>KVKK Aydınlatma Metni</a>
+          </p>
         </footer>
 
       </main>
