@@ -6,7 +6,8 @@ export async function POST(request) {
   }
 
   try {
-    const res = await fetch('https://api.resend.com/emails', {
+    // Kullanıcıya hoşgeldin maili
+    await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
@@ -35,11 +36,28 @@ export async function POST(request) {
       }),
     });
 
-    if (res.ok) {
-      return Response.json({ success: true });
-    } else {
-      return Response.json({ error: 'E-posta gönderilemedi.' }, { status: 500 });
-    }
+    // Sana bildirim maili
+    await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        from: 'KAYBETTİM <iletisim@kaybettim.org>',
+        to: 'iletisim@kaybettim.org',
+        subject: '🔔 Yeni lansman kaydı!',
+        html: `
+          <div style="font-family:sans-serif;max-width:480px;margin:0 auto;padding:2rem;">
+            <h2>Yeni kayıt! 🎉</h2>
+            <p style="font-size:18px;color:#D85A30;"><strong>${email}</strong></p>
+            <p style="color:#666;font-size:14px;">Lansman listesine yeni bir kullanıcı eklendi.</p>
+          </div>
+        `,
+      }),
+    });
+
+    return Response.json({ success: true });
   } catch {
     return Response.json({ error: 'Bir hata oluştu.' }, { status: 500 });
   }
