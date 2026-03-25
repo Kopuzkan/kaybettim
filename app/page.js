@@ -4,12 +4,38 @@ import { useState } from "react";
 export default function Home() {
   const [showModal, setShowModal] = useState(false);
   const [activeStep, setActiveStep] = useState(0);
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState("idle");
 
   const steps = [
     { n: '01', icon: '🛡️', title: 'Kimliğinizi Doğrulayın', desc: 'T.C. kimlik numaranız ile güvenli hesap oluşturun. İşlem yalnızca birkaç saniye sürer. Verileriniz şifreli olarak saklanır.' },
     { n: '02', icon: '📸', title: 'İlanınızı Oluşturun', desc: 'Fotoğraf ekleyin, konumu belirtin ve kategori seçin. Detaylı bir ilan, bulunma ihtimalini önemli ölçüde artırır.' },
     { n: '03', icon: '📍', title: 'Topluluk Ağına Ulaşın', desc: 'İlanınız, çevrenizde kayıtlı doğrulanmış kullanıcılara anında iletilir ve canlı haritada yayınlanır.' },
   ];
+
+  async function handleSubscribe() {
+    if (!email || !email.includes('@')) {
+      setStatus("error");
+      return;
+    }
+    setStatus("loading");
+    try {
+      const res = await fetch('/api/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setStatus("success");
+        setEmail("");
+      } else {
+        setStatus("error");
+      }
+    } catch {
+      setStatus("error");
+    }
+  }
 
   return (
     <>
@@ -56,29 +82,18 @@ export default function Home() {
         .step-btn.active { background: #D85A30; border-color: #D85A30; color: #fff; }
         .step-btn:hover { border-color: #D85A30; color: #D85A30; }
         input::placeholder { color: #444; }
+        input:focus { outline: none; border-color: #D85A30 !important; }
       `}</style>
 
       {/* MODAL */}
       {showModal && (
-        <div
-          className="modal-overlay"
-          onClick={() => setShowModal(false)}
-          style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.85)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem', backdropFilter: 'blur(8px)' }}
-        >
-          <div
-            className="modal-box"
-            onClick={e => e.stopPropagation()}
-            style={{ background: '#0f0f0f', border: '1px solid #222', borderRadius: '24px', padding: '3rem', maxWidth: '560px', width: '100%', position: 'relative' }}
-          >
-            <button
-              onClick={() => setShowModal(false)}
-              style={{ position: 'absolute', top: '1.5rem', right: '1.5rem', background: '#1a1a1a', border: 'none', color: '#555', width: '32px', height: '32px', borderRadius: '50%', cursor: 'pointer', fontSize: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-            >✕</button>
+        <div className="modal-overlay" onClick={() => setShowModal(false)} style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.85)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem', backdropFilter: 'blur(8px)' }}>
+          <div className="modal-box" onClick={e => e.stopPropagation()} style={{ background: '#0f0f0f', border: '1px solid #222', borderRadius: '24px', padding: '3rem', maxWidth: '560px', width: '100%', position: 'relative' }}>
+            <button onClick={() => setShowModal(false)} style={{ position: 'absolute', top: '1.5rem', right: '1.5rem', background: '#1a1a1a', border: 'none', color: '#555', width: '32px', height: '32px', borderRadius: '50%', cursor: 'pointer', fontSize: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>✕</button>
 
             <p style={{ color: '#D85A30', fontSize: '11px', fontWeight: '700', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: '0.75rem' }}>Kullanım Süreci</p>
             <h2 style={{ fontFamily: "'Instrument Serif', serif", fontSize: '2rem', color: '#fff', marginBottom: '2rem' }}>3 adımda sonuca ulaşın</h2>
 
-            {/* STEP BUTONLARI */}
             <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '2rem', flexWrap: 'wrap' }}>
               {steps.map((s, i) => (
                 <button key={i} className={`step-btn ${activeStep === i ? 'active' : ''}`} onClick={() => setActiveStep(i)}>
@@ -87,7 +102,6 @@ export default function Home() {
               ))}
             </div>
 
-            {/* AKTİF ADIM */}
             <div style={{ background: '#151515', border: '1px solid #1a1a1a', borderRadius: '16px', padding: '2rem', minHeight: '160px' }}>
               <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>{steps[activeStep].icon}</div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.75rem' }}>
@@ -97,29 +111,17 @@ export default function Home() {
               <p style={{ fontSize: '14px', color: '#666', lineHeight: '1.8' }}>{steps[activeStep].desc}</p>
             </div>
 
-            {/* İLERİ / GERİ */}
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '1.5rem' }}>
-              <button
-                onClick={() => setActiveStep(Math.max(0, activeStep - 1))}
-                style={{ background: 'transparent', border: '1px solid #222', color: activeStep === 0 ? '#333' : '#888', padding: '10px 20px', borderRadius: '10px', cursor: activeStep === 0 ? 'default' : 'pointer', fontFamily: 'inherit', fontSize: '13px' }}
-              >← Önceki</button>
-
+              <button onClick={() => setActiveStep(Math.max(0, activeStep - 1))} style={{ background: 'transparent', border: '1px solid #222', color: activeStep === 0 ? '#333' : '#888', padding: '10px 20px', borderRadius: '10px', cursor: activeStep === 0 ? 'default' : 'pointer', fontFamily: 'inherit', fontSize: '13px' }}>← Önceki</button>
               <div style={{ display: 'flex', gap: '6px' }}>
                 {steps.map((_, i) => (
                   <div key={i} onClick={() => setActiveStep(i)} style={{ width: activeStep === i ? '20px' : '6px', height: '6px', borderRadius: '100px', background: activeStep === i ? '#D85A30' : '#2a2a2a', cursor: 'pointer', transition: 'all 0.3s' }} />
                 ))}
               </div>
-
               {activeStep < steps.length - 1 ? (
-                <button
-                  onClick={() => setActiveStep(Math.min(steps.length - 1, activeStep + 1))}
-                  style={{ background: '#D85A30', border: 'none', color: '#fff', padding: '10px 20px', borderRadius: '10px', cursor: 'pointer', fontFamily: 'inherit', fontSize: '13px', fontWeight: '600' }}
-                >Sonraki →</button>
+                <button onClick={() => setActiveStep(Math.min(steps.length - 1, activeStep + 1))} style={{ background: '#D85A30', border: 'none', color: '#fff', padding: '10px 20px', borderRadius: '10px', cursor: 'pointer', fontFamily: 'inherit', fontSize: '13px', fontWeight: '600' }}>Sonraki →</button>
               ) : (
-                <button
-                  onClick={() => setShowModal(false)}
-                  style={{ background: '#1D9E75', border: 'none', color: '#fff', padding: '10px 20px', borderRadius: '10px', cursor: 'pointer', fontFamily: 'inherit', fontSize: '13px', fontWeight: '600' }}
-                >Harika! ✓</button>
+                <button onClick={() => setShowModal(false)} style={{ background: '#1D9E75', border: 'none', color: '#fff', padding: '10px 20px', borderRadius: '10px', cursor: 'pointer', fontFamily: 'inherit', fontSize: '13px', fontWeight: '600' }}>Harika! ✓</button>
               )}
             </div>
           </div>
@@ -147,13 +149,10 @@ export default function Home() {
           </p>
 
           <div className="fade4" style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', justifyContent: 'center' }}>
-            <button className="glow-btn" style={{ background: '#D85A30', color: '#fff', border: 'none', padding: '14px 32px', borderRadius: '12px', fontSize: '15px', fontWeight: '700', cursor: 'pointer', fontFamily: 'inherit' }}>
+            <button className="glow-btn" onClick={() => document.getElementById('cta').scrollIntoView({ behavior: 'smooth' })} style={{ background: '#D85A30', color: '#fff', border: 'none', padding: '14px 32px', borderRadius: '12px', fontSize: '15px', fontWeight: '700', cursor: 'pointer', fontFamily: 'inherit' }}>
               Beni Haberdar Et
             </button>
-            <button
-              onClick={() => { setShowModal(true); setActiveStep(0); }}
-              style={{ background: 'transparent', color: '#888', border: '1px solid #2a2a2a', padding: '14px 32px', borderRadius: '12px', fontSize: '15px', cursor: 'pointer', fontFamily: 'inherit', transition: 'all 0.2s' }}
-            >
+            <button onClick={() => { setShowModal(true); setActiveStep(0); }} style={{ background: 'transparent', color: '#888', border: '1px solid #2a2a2a', padding: '14px 32px', borderRadius: '12px', fontSize: '15px', cursor: 'pointer', fontFamily: 'inherit' }}>
               Nasıl Çalışır?
             </button>
           </div>
@@ -198,7 +197,7 @@ export default function Home() {
         </section>
 
         {/* CTA */}
-        <section style={{ padding: '7rem 2rem', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
+        <section id="cta" style={{ padding: '7rem 2rem', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
           <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: '600px', height: '600px', background: '#D85A3012', borderRadius: '50%', filter: 'blur(100px)' }} />
           <div style={{ position: 'relative', zIndex: 1, maxWidth: '560px', margin: '0 auto' }}>
             <h2 style={{ fontFamily: "'Instrument Serif', serif", fontSize: 'clamp(2.5rem, 6vw, 4rem)', color: '#fff', marginBottom: '1rem', lineHeight: '1.15' }}>
@@ -208,18 +207,41 @@ export default function Home() {
             <p style={{ color: '#555', fontSize: '14px', marginBottom: '2rem', lineHeight: '1.7' }}>
               Lansman bildirimi almak için e-posta adresinizi bırakın. Spam göndermiyoruz; yalnızca açılış duyurusunu iletiyoruz.
             </p>
-            <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '1.5rem' }}>
-              <input type="email" placeholder="ornek@eposta.com" style={{ padding: '14px 20px', borderRadius: '12px', border: '1px solid #2a2a2a', background: '#111', color: '#fff', fontSize: '14px', width: '280px', fontFamily: 'inherit', outline: 'none' }} />
-              <button className="glow-btn" style={{ background: '#D85A30', color: '#fff', border: 'none', padding: '14px 28px', borderRadius: '12px', fontSize: '14px', fontWeight: '700', cursor: 'pointer', fontFamily: 'inherit' }}>
-                Beni Haberdar Et
-              </button>
-            </div>
-            <p style={{ fontSize: '11px', color: '#333', lineHeight: '1.7', maxWidth: '460px', margin: '0 auto' }}>
-              Bu formu doldurarak e-posta adresinizin yalnızca lansman bildirimi amacıyla işleneceğini kabul etmiş olursunuz.
-              Kişisel verileriniz üçüncü taraflarla paylaşılmaz ve 6698 sayılı{' '}
-              <a href="/kvkk" style={{ color: '#444', textDecoration: 'underline' }}>KVKK kapsamında</a> korunmaktadır.
-              İstediğiniz zaman aboneliğinizi iptal edebilirsiniz.
-            </p>
+
+            {status === 'success' ? (
+              <div style={{ background: '#0F2E1E', border: '1px solid #1D9E7540', borderRadius: '16px', padding: '2rem', color: '#5DCAA5' }}>
+                <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>🎉</div>
+                <p style={{ fontWeight: '700', fontSize: '16px' }}>Harika! Listeye eklendiniz.</p>
+                <p style={{ fontSize: '13px', marginTop: '0.5rem', color: '#1D9E75' }}>Lansman duyurusunu e-postanızla ileteceğiz.</p>
+              </div>
+            ) : (
+              <>
+                <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '1rem' }}>
+                  <input
+                    type="email"
+                    placeholder="ornek@eposta.com"
+                    value={email}
+                    onChange={e => setEmail(e.target.value)}
+                    onKeyDown={e => e.key === 'Enter' && handleSubscribe()}
+                    style={{ padding: '14px 20px', borderRadius: '12px', border: `1px solid ${status === 'error' ? '#D85A30' : '#2a2a2a'}`, background: '#111', color: '#fff', fontSize: '14px', width: '280px', fontFamily: 'inherit' }}
+                  />
+                  <button
+                    onClick={handleSubscribe}
+                    disabled={status === 'loading'}
+                    className="glow-btn"
+                    style={{ background: '#D85A30', color: '#fff', border: 'none', padding: '14px 28px', borderRadius: '12px', fontSize: '14px', fontWeight: '700', cursor: status === 'loading' ? 'wait' : 'pointer', fontFamily: 'inherit', opacity: status === 'loading' ? 0.7 : 1 }}
+                  >
+                    {status === 'loading' ? 'Gönderiliyor...' : 'Beni Haberdar Et'}
+                  </button>
+                </div>
+                {status === 'error' && <p style={{ color: '#D85A30', fontSize: '13px', marginBottom: '1rem' }}>Geçerli bir e-posta adresi girin.</p>}
+                <p style={{ fontSize: '11px', color: '#333', lineHeight: '1.7', maxWidth: '460px', margin: '0 auto' }}>
+                  Bu formu doldurarak e-posta adresinizin yalnızca lansman bildirimi amacıyla işleneceğini kabul etmiş olursunuz.
+                  Kişisel verileriniz üçüncü taraflarla paylaşılmaz ve 6698 sayılı{' '}
+                  <a href="/kvkk" style={{ color: '#444', textDecoration: 'underline' }}>KVKK kapsamında</a> korunmaktadır.
+                </p>
+              </>
+            )}
           </div>
         </section>
 
