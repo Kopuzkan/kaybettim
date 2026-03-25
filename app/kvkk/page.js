@@ -91,13 +91,13 @@ export default function KVKK() {
 
       <div style={{ background: '#111', border: '1px solid #1a1a1a', borderRadius: '12px', padding: '1.5rem', marginTop: '2rem' }}>
         <p style={{ fontSize: '12px', color: '#444', lineHeight: '1.8' }}>
-          <strong style={{ color: '#555' }}>Not:</strong> Bu metin genel bir taslak niteliğindedir. Platformun operasyonel süreçleri değiştikçe (ödeme sistemi eklenmesi, farklı veri türlerinin toplanması vb.) metnin bir hukuk müşaviri tarafından güncellenmesi önerilir.
+          <strong style={{ color: '#555' }}>Not:</strong> Platformun operasyonel süreçleri değiştikçe (ödeme sistemi eklenmesi, farklı veri türlerinin toplanması vb.) metnin bir hukuk müşaviri tarafından güncellenecektir.
         </p>
       </div>
 
       <footer style={{ marginTop: '4rem', paddingTop: '2rem', borderTop: '1px solid #111', textAlign: 'center' }}>
         <p style={{ color: '#D85A30', fontFamily: 'Georgia, serif', fontSize: '1.2rem', marginBottom: '0.5rem' }}>KAYBETTİM</p>
-        <p style={{ color: '#222', fontSize: '12px' }}>© 2026 KAYBETTİM · Tüm hakları saklıdır</p>
+        <p style={{ color: '#222', fontSize: '12px' }}>2026 KAYBETTİM · Tüm hakları ANAKRON DİGİTAL adına saklıdır</p>
       </footer>
     </main>
   )
