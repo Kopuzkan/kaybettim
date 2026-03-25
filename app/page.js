@@ -27,7 +27,6 @@ export default function Home() {
         .fade2 { animation: fadeUp 0.8s ease 0.2s forwards; opacity: 0; }
         .fade3 { animation: fadeUp 0.8s ease 0.4s forwards; opacity: 0; }
         .fade4 { animation: fadeUp 0.8s ease 0.6s forwards; opacity: 0; }
-        .fade5 { animation: fadeUp 0.8s ease 0.8s forwards; opacity: 0; }
         .scroll-track { animation: scroll 20s linear infinite; display: flex; width: max-content; }
         .float { animation: float 3s ease-in-out infinite; }
         .glow-btn { animation: glow 2s ease-in-out infinite; }
@@ -35,7 +34,6 @@ export default function Home() {
         .feature-card:hover { border-color: rgba(216,90,48,0.4); }
         input::placeholder { color: #444; }
         input:focus { border-color: #D85A30 !important; }
-        a { color: #F0997B; text-decoration: underline; }
       `}</style>
 
       <main style={{ background: '#0a0a0a', color: '#fff', fontFamily: "'Space Grotesk', sans-serif", overflowX: 'hidden' }}>
@@ -58,14 +56,14 @@ export default function Home() {
             <span style={{ color: '#F0997B', fontWeight: '600' }}>Biz buradayız!</span>
           </p>
 
-          <div className="fade4" style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', justifyContent: 'center', marginBottom: '3rem' }}>
+          <div className="fade4" style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', justifyContent: 'center' }}>
             <button className="glow-btn" style={{ background: '#D85A30', color: '#fff', border: 'none', padding: '14px 32px', borderRadius: '12px', fontSize: '15px', fontWeight: '700', cursor: 'pointer', fontFamily: 'inherit' }}>
               Beni Haberdar Et
             </button>
             <button style={{ background: 'transparent', color: '#888', border: '1px solid #2a2a2a', padding: '14px 32px', borderRadius: '12px', fontSize: '15px', cursor: 'pointer', fontFamily: 'inherit' }}>
               Nasıl Çalışır?
             </button>
-         
+          </div>
         </section>
 
         {/* SCROLL BANNER */}
@@ -154,7 +152,7 @@ export default function Home() {
             <p style={{ fontSize: '11px', color: '#333', lineHeight: '1.7', maxWidth: '460px', margin: '0 auto' }}>
               Bu formu doldurarak e-posta adresinizin yalnızca lansman bildirimi amacıyla işleneceğini kabul etmiş olursunuz.
               Kişisel verileriniz üçüncü taraflarla paylaşılmaz ve 6698 sayılı{' '}
-              <a href="/kvkk" style={{ color: '#444' }}>KVKK kapsamında</a> korunmaktadır.
+              <a href="/kvkk" style={{ color: '#444', textDecoration: 'underline' }}>KVKK kapsamında</a> korunmaktadır.
               İstediğiniz zaman aboneliğinizi iptal edebilirsiniz.
             </p>
           </div>
@@ -165,8 +163,8 @@ export default function Home() {
           <p style={{ color: '#D85A30', fontFamily: "'Instrument Serif', serif", fontSize: '1.5rem', marginBottom: '0.5rem' }}>KAYBETTİM</p>
           <p style={{ color: '#2a2a2a', fontSize: '12px' }}>
             © 2026 KAYBETTİM · Tüm hakları saklıdır ·{' '}
-            <a href="/kvkk" style={{ color: '#333' }}>Gizlilik Politikası</a> ·{' '}
-            <a href="/kvkk" style={{ color: '#333' }}>KVKK Aydınlatma Metni</a>
+            <a href="/kvkk" style={{ color: '#333', textDecoration: 'underline' }}>Gizlilik Politikası</a>{' '}·{' '}
+            <a href="/kvkk" style={{ color: '#333', textDecoration: 'underline' }}>KVKK Aydınlatma Metni</a>
           </p>
         </footer>
 
