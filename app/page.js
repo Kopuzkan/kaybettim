@@ -65,16 +65,7 @@ export default function Home() {
             <button style={{ background: 'transparent', color: '#888', border: '1px solid #2a2a2a', padding: '14px 32px', borderRadius: '12px', fontSize: '15px', cursor: 'pointer', fontFamily: 'inherit' }}>
               Nasıl Çalışır?
             </button>
-          </div>
-
-          <div className="fade5" style={{ display: 'flex', gap: '3rem', flexWrap: 'wrap', justifyContent: 'center' }}>
-            {[['2.400+', 'Beklenen Kullanıcı'], ['%78', 'Hedef Çözüm Oranı'], ['81 İl', 'Tam Kapsama']].map(([num, label]) => (
-              <div key={label} style={{ textAlign: 'center' }}>
-                <div style={{ fontSize: '2rem', fontWeight: '700', color: '#D85A30' }}>{num}</div>
-                <div style={{ fontSize: '12px', color: '#444', marginTop: '4px', letterSpacing: '0.04em' }}>{label}</div>
-              </div>
-            ))}
-          </div>
+         
         </section>
 
         {/* SCROLL BANNER */}
