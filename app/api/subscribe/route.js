@@ -13,7 +13,7 @@ export async function POST(request) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        from: 'KAYBETTİM <onboarding@resend.dev>',
+        from: 'KAYBETTİM <iletisim@kaybettim.org>',
         to: email,
         subject: 'Listeye eklendiniz! 🎉',
         html: `
